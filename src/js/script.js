@@ -46,24 +46,18 @@ function addZero(val) {
 
 // Event Listener der drei Zeiteinheiten Stunde, Minute und Sekunde
 hr_Container.addEventListener('click', (event) => {
-    if (isRunning === false) {
         timer.hour = event.target.innerHTML;
         changeTimer(event.target);
-    }
 });
 
 min_Container.addEventListener('click', (event) => {
-    if (isRunning === false) {
         timer.minute = event.target.innerHTML;
         changeTimer(event.target);
-    }
 });
 
 sec_Container.addEventListener('click', (event) => {
-    if (isRunning === false) {
         timer.second = event.target.innerHTML;
         changeTimer(event.target);
-    }
 });
 
 // Refresh der eingestellten Zeit und Convertierung in Integer

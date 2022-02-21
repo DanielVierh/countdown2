@@ -1,0 +1,89 @@
+*{
+    padding: 0;
+    margin: 0;
+    font-family: sans-serif;
+}
+
+body{
+    background-color: rgba(0, 0, 0, 0.863);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.scrollContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-height: 20vh;
+    overflow-y: auto;
+    font-size: 2rem;
+    color: white;
+    font-weight: bold;
+    border: 1px solid rgba(255, 255, 255, 0.699);
+    border-radius: 15px;
+    width: 30%;
+    box-shadow: inset 0px 10px 15px black;
+    margin: 0 auto;
+}
+
+.timer{
+    color: lightblue;
+    font-size: 3.7rem;
+    text-align: center;
+    margin: 50px auto auto auto;
+    font-weight: bold;
+    letter-spacing: .4rem;
+}
+
+.timeTitle{
+    color: white;
+    font-size: 2rem;
+    margin: 0;
+}
+
+.container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 90%;
+    margin: 90px auto 10px auto ;
+    padding: 5px;
+}
+
+
+.timePeace:active{
+    background-color: white;
+}
+
+.startbutton{
+    position: fixed;
+    bottom: 0;
+    margin: 25px;
+    width: 80%;
+    height: 60px;
+    background-color: green;
+    color: white;
+    border-radius: 15px;
+    border: none;
+    font-size: 2rem;
+    letter-spacing: .3rem;
+}
+
+.startbutton:active{
+    transform: scale(0.9);
+}
+
+.startButton.shake{
+    animation: shaking 1s 1;
+}
+
+@keyframes shaking {
+    from{
+        background-color: blue;
+    }
+
+    to{
+        background-color: white;
+    }
+}

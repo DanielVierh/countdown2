@@ -1,101 +1,129 @@
-
-const hr = document.getElementById("hrCont");
-const min = document.getElementById("minCont");
-const sec = document.getElementById("secCont");
-const timerLabel = document.getElementById("timer");
-const startButton = document.getElementById("btnStart");
-let hours = 0;
-let minutes = 0;
-let seconds = 0;
+const hr = document.getElementById('hrCont');
+const min = document.getElementById('minCont');
+const sec = document.getElementById('secCont');
+const timerLabel = document.getElementById('timer');
+const startButton = document.getElementById('btnStart');
+const body = document.querySelector('body');
+const timeUnitContainer = document.getElementById('timeUnitContainer');
+const alarmSound = new Audio('src/assets/alarm.mp3');
 let isRunning = false;
+let isAlarmColor = false;
 let timer = {
     hour: '00',
     minute: '00',
-    second: '00'
-}
+    second: '10',
+    int_hours: 0,
+    int_minutes: 0,
+    int_Seconds: 10,
+};
 
 window.onload = init;
 
+// Anweisung zum rendern der Stunden, Minuten und Sekunden von 0 - 59
 function init() {
-    createTimer(hr, "h");
-    createTimer(min, "m");
-    createTimer(sec, "s");
+    createTimeUnits(hr);
+    createTimeUnits(min);
+    createTimeUnits(sec);
 }
 
-function createTimer(cont, timeUnit) {
-    for(let i = 0; i <= 59; i++) {
-        let item = document.createElement("div");
+// Funktion zum rendern der Stunden, Minuten und Sekunden von 0 - 59
+function createTimeUnits(container) {
+    for (let i = 0; i <= 59; i++) {
+        let item = document.createElement('div');
         item.appendChild(document.createTextNode(addZero(i)));
         item.classList.add('timePeace');
-        cont.appendChild(item);
+        container.appendChild(item);
     }
 }
 
+// Kleine Hilfsfunktion, um eine 0 hinzuzufügen
 function addZero(val) {
-    if(val < 10) {
-        val = "0" + val;
+    if (val < 10) {
+        val = '0' + val;
     }
     return val;
 }
 
-hr.addEventListener("click", event =>{
+// Event Listener der drei Zeiteinheiten Stunde, Minute und Sekunde
+hr.addEventListener('click', (event) => {
+    if (isRunning === false) {
         timer.hour = event.target.innerHTML;
-        changeTimer(event.target, hr);      
-})
+        changeTimer(event.target, hr);
+    }
+});
 
-min.addEventListener("click", event =>{
-    timer.minute = event.target.innerHTML;
-    changeTimer(event.target);
-})
+min.addEventListener('click', (event) => {
+    if (isRunning === false) {
+        timer.minute = event.target.innerHTML;
+        changeTimer(event.target);
+    }
+});
 
-sec.addEventListener("click", event =>{
-    timer.second = event.target.innerHTML;
-    changeTimer(event.target);
-})
+sec.addEventListener('click', (event) => {
+    if (isRunning === false) {
+        timer.second = event.target.innerHTML;
+        changeTimer(event.target);
+    }
+});
 
-
+// Refresh der eingestellten Zeit und Convertierung in Integer
 function changeTimer(targt) {
     timerLabel.innerHTML = `${timer.hour}:${timer.minute}:${timer.second}`;
-    hours = parseInt(timer.hour);
-    minutes = parseInt(timer.minute);
-    seconds = parseInt(timer.second);
+    timer.int_hours = parseInt(timer.hour);
+    timer.int_minutes = parseInt(timer.minute);
+    timer.int_Seconds = parseInt(timer.second);
 }
 
+// Event Listener vom Start Button
+startButton.addEventListener('click', startStopCountDown);
 
-startButton.addEventListener("click", startStopCountDown);
-
+// Starte Countdown
 function startStopCountDown() {
-    if(isRunning === false) {
+    if (isRunning === false) {
         isRunning = true;
         startButton.innerText = 'Stopp';
         startButton.style.backgroundColor = 'red';
         setInterval(countDown, 1000);
-    }else{
-       location.reload();
+    } else {
+        location.reload();
     }
 }
 
+// Eigentliche Countdown Funktion
 function countDown() {
-    if(seconds > 0){
-        seconds--;
-    }else{
-        if(minutes > 0){
-            minutes--;
-            seconds = 59;
-        }else{
-            if(hours > 0){
-                hours --;
-                minutes = 59;
-                seconds = 59;
+    // Hier wird runtergezählt
+    if (timer.int_Seconds > 0) {
+        timer.int_Seconds--;
+    } else {
+        if (timer.int_minutes > 0) {
+            timer.int_minutes--;
+            timer.int_Seconds = 59;
+        } else {
+            if (timer.int_hours > 0) {
+                timer.int_hours--;
+                timer.int_minutes = 59;
+                timer.int_Seconds = 59;
             }
         }
     }
-    timerLabel.innerHTML = `${addZero(hours)}:${addZero(minutes)}:${addZero(seconds)}`;
-   // Timer ist abgelaufen
-    if(hours === 0 && minutes === 0 && seconds === 0) {
-        timerLabel.innerHTML = "Ende"
-        startButton.classList.add('shake')
-        startButton.innerText = 'Start';
-        startButton.style.backgroundColor = 'green';
+    // Aktuellen Stand anzeigen
+    timerLabel.innerHTML = `${addZero(timer.int_hours)}:${addZero(timer.int_minutes,)}:${addZero(timer.int_Seconds)}`;
+    // Timer ist abgelaufen
+    if (
+        timer.int_hours === 0 &&
+        timer.int_minutes === 0 &&
+        timer.int_Seconds === 0
+    ) {
+        timerLabel.innerHTML = '--:--:--';
+        startButton.innerText = 'Ende';
+        startButton.style.backgroundColor = 'orange';
+        if (isAlarmColor === false) {
+            isAlarmColor = true;
+            body.style.background = 'rgb(119, 0, 0)';
+            alarmSound.play();
+        } else {
+            isAlarmColor = false;
+            body.style.background = 'rgba(0, 0, 0, 0.863)';
+        }
     }
 }

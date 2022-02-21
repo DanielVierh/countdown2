@@ -79,7 +79,7 @@ body{
 .startbutton{
     position: fixed;
     bottom: 0;
-    margin: 25px;
+    margin: 25px auto;
     width: 80%;
     max-width: 400px;
     height: 60px;
@@ -89,22 +89,9 @@ body{
     border: none;
     font-size: 2rem;
     letter-spacing: .3rem;
+    cursor: pointer;
 }
 
 .startbutton:active{
     transform: scale(0.9);
-}
-
-.startButton.shake{
-    animation: shaking .5s 1;
-}
-
-@keyframes shaking {
-    from{
-        background-color: blue;
-    }
-
-    to{
-        background-color: white;
-    }
 }

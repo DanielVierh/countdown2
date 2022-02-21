@@ -1,6 +1,6 @@
-const hr = document.getElementById('hrCont');
-const min = document.getElementById('minCont');
-const sec = document.getElementById('secCont');
+const hr_Container = document.getElementById('hrCont');
+const min_Container = document.getElementById('minCont');
+const sec_Container = document.getElementById('secCont');
 const timerLabel = document.getElementById('timer');
 const startButton = document.getElementById('btnStart');
 const body = document.querySelector('body');
@@ -21,9 +21,9 @@ window.onload = init;
 
 // Anweisung zum rendern der Stunden, Minuten und Sekunden von 0 - 59
 function init() {
-    createTimeUnits(hr);
-    createTimeUnits(min);
-    createTimeUnits(sec);
+    createTimeUnits(hr_Container);
+    createTimeUnits(min_Container);
+    createTimeUnits(sec_Container);
 }
 
 // Funktion zum rendern der Stunden, Minuten und Sekunden von 0 - 59
@@ -45,21 +45,21 @@ function addZero(val) {
 }
 
 // Event Listener der drei Zeiteinheiten Stunde, Minute und Sekunde
-hr.addEventListener('click', (event) => {
+hr_Container.addEventListener('click', (event) => {
     if (isRunning === false) {
         timer.hour = event.target.innerHTML;
-        changeTimer(event.target, hr);
+        changeTimer(event.target);
     }
 });
 
-min.addEventListener('click', (event) => {
+min_Container.addEventListener('click', (event) => {
     if (isRunning === false) {
         timer.minute = event.target.innerHTML;
         changeTimer(event.target);
     }
 });
 
-sec.addEventListener('click', (event) => {
+sec_Container.addEventListener('click', (event) => {
     if (isRunning === false) {
         timer.second = event.target.innerHTML;
         changeTimer(event.target);
@@ -84,6 +84,11 @@ function startStopCountDown() {
         startButton.innerText = 'Stopp';
         startButton.style.backgroundColor = 'red';
         setInterval(countDown, 1000);
+        timeUnitContainer.style.display = 'none';
+        timerLabel.style.position = 'fixed';
+        timerLabel.style.top = '40%';
+        timerLabel.style.left = '50%';
+        timerLabel.style.transform = 'translate(-50%, -50%)';
     } else {
         location.reload();
     }

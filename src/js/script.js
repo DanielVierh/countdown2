@@ -88,11 +88,10 @@ startButton.addEventListener('click', startStopCountDown);
 // Starte Countdown
 function startStopCountDown() {
     if (isRunning === false) {
+        // Speichere letzten Countdown ab
         timerArray.push(timer.hour)
         timerArray.push(timer.minute)
         timerArray.push(timer.second)
-        console.log(timerArray);
-        // Speichere letzten Countdown ab
         localStorage.setItem('storedTimer', JSON.stringify(timerArray))
 
         alarmSound.pause();

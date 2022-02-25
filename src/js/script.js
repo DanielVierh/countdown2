@@ -8,13 +8,14 @@ const timeUnitContainer = document.getElementById('timeUnitContainer');
 const alarmSound = new Audio('src/assets/alarm.mp3');
 let isRunning = false;
 let isAlarmColor = false;
+let timerArray = [];
 let timer = {
     hour: '00',
     minute: '00',
-    second: '10',
+    second: '00',
     int_hours: 0,
     int_minutes: 0,
-    int_Seconds: 10,
+    int_Seconds: 0,
 };
 
 window.onload = init;
@@ -24,6 +25,19 @@ function init() {
     createTimeUnits(hr_Container);
     createTimeUnits(min_Container);
     createTimeUnits(sec_Container);
+    load_last_Countdown();
+}
+
+// Lade Daten aus dem LocalStorage
+function load_last_Countdown() {
+    if(localStorage.getItem('storedTimer') !== null) {
+        timerArray = JSON.parse(localStorage.getItem('storedTimer'));
+        timer.hour = timerArray[0];
+        timer.minute = timerArray[1];
+        timer.second = timerArray[2];
+        changeTimer();
+        timerArray = [];
+    }
 }
 
 // Funktion zum rendern der Stunden, Minuten und Sekunden von 0 - 59
@@ -47,21 +61,21 @@ function addZero(val) {
 // Event Listener der drei Zeiteinheiten Stunde, Minute und Sekunde
 hr_Container.addEventListener('click', (event) => {
         timer.hour = event.target.innerHTML;
-        changeTimer(event.target);
+        changeTimer();
 });
 
 min_Container.addEventListener('click', (event) => {
         timer.minute = event.target.innerHTML;
-        changeTimer(event.target);
+        changeTimer();
 });
 
 sec_Container.addEventListener('click', (event) => {
         timer.second = event.target.innerHTML;
-        changeTimer(event.target);
+        changeTimer();
 });
 
 // Refresh der eingestellten Zeit und Convertierung in Integer
-function changeTimer(targt) {
+function changeTimer() {
     timerLabel.innerHTML = `${timer.hour}:${timer.minute}:${timer.second}`;
     timer.int_hours = parseInt(timer.hour);
     timer.int_minutes = parseInt(timer.minute);
@@ -74,6 +88,14 @@ startButton.addEventListener('click', startStopCountDown);
 // Starte Countdown
 function startStopCountDown() {
     if (isRunning === false) {
+        timerArray.push(timer.hour)
+        timerArray.push(timer.minute)
+        timerArray.push(timer.second)
+        console.log(timerArray);
+        // Speichere letzten Countdown ab
+        localStorage.setItem('storedTimer', JSON.stringify(timerArray))
+
+        alarmSound.pause();
         isRunning = true;
         startButton.innerText = 'Stopp';
         startButton.style.backgroundColor = 'red';
